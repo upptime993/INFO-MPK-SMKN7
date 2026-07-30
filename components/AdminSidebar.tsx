@@ -15,6 +15,9 @@ export const AdminSidebar: React.FC<AdminSidebarProps> = ({ adminName }) => {
   const router = useRouter();
   const [isMobileOpen, setIsMobileOpen] = useState(false);
 
+  // Deteksi apakah saat ini di halaman login (belum terautentikasi)
+  const isLoginPage = pathname === "/admin/login";
+
   const handleLogout = async () => {
     try {
       await fetch("/api/auth/logout", { method: "POST" });
@@ -38,6 +41,11 @@ export const AdminSidebar: React.FC<AdminSidebarProps> = ({ adminName }) => {
     },
   ];
 
+  // Jika di halaman login, jangan tampilkan sidebar sama sekali
+  if (isLoginPage) {
+    return null;
+  }
+
   return (
     <>
       {/* 📱 Mobile Top Header Bar (Tampil hanya di HP < md) */}
@@ -59,7 +67,7 @@ export const AdminSidebar: React.FC<AdminSidebarProps> = ({ adminName }) => {
           </div>
         </div>
 
-        {/* Tombol Hamburger (=) Menu */}
+        {/* Tombol Hamburger (≡) Menu */}
         <button
           onClick={() => setIsMobileOpen(!isMobileOpen)}
           className="p-2 rounded-lg bg-white/10 hover:bg-white/20 text-white transition-colors cursor-pointer"
@@ -85,7 +93,7 @@ export const AdminSidebar: React.FC<AdminSidebarProps> = ({ adminName }) => {
       >
         {/* Brand & Menu Content */}
         <div>
-          {/* Header (Desktop) */}
+          {/* Header */}
           <div className="p-5 border-b border-white/10 flex items-center justify-between">
             <div className="flex items-center gap-3">
               <div className="relative w-10 h-10 flex-shrink-0">
@@ -121,7 +129,7 @@ export const AdminSidebar: React.FC<AdminSidebarProps> = ({ adminName }) => {
             </span>
           </div>
 
-          {/* Navigation Menu Links */}
+          {/* Navigation Menu Links — hanya tampil jika sudah login */}
           <nav className="p-4 space-y-1.5">
             {navItems.map((item) => {
               const isActive = pathname === item.href;
