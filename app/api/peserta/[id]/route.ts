@@ -47,7 +47,7 @@ export async function PUT(
     }
 
     const body = await request.json();
-    const { nama, kelasJurusan, nomorPendaftaran, nilai, catatan, pesanMPK, linkWaGrup, published } = body;
+    const { nama, kelasJurusan, nomorPendaftaran, nilai, catatan, namaPenguji, pesanMPK, linkWaGrup, published } = body;
 
     await connectToDatabase();
 
@@ -96,6 +96,14 @@ export async function PUT(
         mengaji: catatan.mengaji !== undefined ? String(catatan.mengaji).trim() : peserta.catatan?.mengaji,
         akademik: catatan.akademik !== undefined ? String(catatan.akademik).trim() : peserta.catatan?.akademik,
         wawancara: catatan.wawancara !== undefined ? String(catatan.wawancara).trim() : peserta.catatan?.wawancara,
+      };
+    }
+
+    if (namaPenguji) {
+      peserta.namaPenguji = {
+        mengaji: namaPenguji.mengaji !== undefined ? String(namaPenguji.mengaji).trim() : peserta.namaPenguji?.mengaji,
+        akademik: namaPenguji.akademik !== undefined ? String(namaPenguji.akademik).trim() : peserta.namaPenguji?.akademik,
+        wawancara: namaPenguji.wawancara !== undefined ? String(namaPenguji.wawancara).trim() : peserta.namaPenguji?.wawancara,
       };
     }
 

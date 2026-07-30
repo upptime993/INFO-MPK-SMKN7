@@ -1,10 +1,11 @@
 import React from "react";
-import { BookOpen, GraduationCap, Users } from "lucide-react";
+import { BookOpen, GraduationCap, Users, UserCheck } from "lucide-react";
 
 interface ScoreCardProps {
   jenis: "mengaji" | "akademik" | "wawancara";
   nilai: number;
   catatan?: string;
+  namaPenguji?: string;
   persentase: number;
 }
 
@@ -12,6 +13,7 @@ export const ScoreCard: React.FC<ScoreCardProps> = ({
   jenis,
   nilai,
   catatan,
+  namaPenguji,
   persentase,
 }) => {
   const meta = {
@@ -38,11 +40,11 @@ export const ScoreCard: React.FC<ScoreCardProps> = ({
           <div className="w-7 h-7 rounded-md bg-navy/5 text-navy flex items-center justify-center flex-shrink-0">
             <IconComponent size={15} />
           </div>
-          <span className="font-semibold text-sm text-navy">{meta.title}</span>
+          <span className="font-semibold text-xs sm:text-sm text-navy">{meta.title}</span>
         </div>
 
-        <div className="flex items-baseline gap-2 text-right">
-          <span className="font-serif font-bold text-lg text-navy">
+        <div className="flex items-baseline gap-2 text-right flex-shrink-0">
+          <span className="font-serif font-bold text-base sm:text-lg text-navy">
             {nilai.toFixed(1)} <span className="text-xs font-sans text-ink-muted font-normal">/ 5</span>
           </span>
           <span className="text-xs font-mono font-semibold text-gold-dark bg-gold/10 px-1.5 py-0.5 rounded">
@@ -59,11 +61,21 @@ export const ScoreCard: React.FC<ScoreCardProps> = ({
         />
       </div>
 
-      {/* Catatan Penguji */}
-      {catatan && (
-        <p className="text-xs text-ink-light leading-relaxed italic bg-paper/70 p-2 rounded border border-navy/5">
-          &ldquo;{catatan}&rdquo;
-        </p>
+      {/* Catatan & Nama Penguji */}
+      {(catatan || namaPenguji) && (
+        <div className="bg-paper/80 p-2.5 rounded-lg border border-navy/10 space-y-1">
+          {namaPenguji && (
+            <div className="flex items-center gap-1.5 text-[11px] font-semibold text-navy">
+              <UserCheck size={13} className="text-gold-dark" />
+              <span>Penguji: {namaPenguji}</span>
+            </div>
+          )}
+          {catatan && (
+            <p className="text-xs text-ink-light leading-relaxed italic">
+              &ldquo;{catatan}&rdquo;
+            </p>
+          )}
+        </div>
       )}
     </div>
   );

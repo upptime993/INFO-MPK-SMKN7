@@ -15,6 +15,11 @@ export interface IPeserta extends Document {
     akademik?: string;
     wawancara?: string;
   };
+  namaPenguji?: {
+    mengaji?: string;
+    akademik?: string;
+    wawancara?: string;
+  };
   pesanMPK?: string;
   linkWaGrup?: string;
   totalPoin: number;
@@ -52,6 +57,11 @@ const PesertaSchema = new Schema<IPeserta>(
       akademik: { type: String, default: "" },
       wawancara: { type: String, default: "" },
     },
+    namaPenguji: {
+      mengaji: { type: String, default: "" },
+      akademik: { type: String, default: "" },
+      wawancara: { type: String, default: "" },
+    },
     pesanMPK: {
       type: String,
       default: "",
@@ -81,7 +91,6 @@ const PesertaSchema = new Schema<IPeserta>(
   }
 );
 
-// Pre-save hook untuk selalu meyakinkan totalPoin dan status dihitung otomatis di server-side
 PesertaSchema.pre("save", function (next) {
   if (this.isModified("nilai") || this.isNew) {
     const hasil = hitungHasil(this.nilai);

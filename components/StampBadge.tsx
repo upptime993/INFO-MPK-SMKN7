@@ -15,7 +15,25 @@ export const StampBadge: React.FC<StampBadgeProps> = ({
 }) => {
   const isLulus = status === "LULUS";
 
-  // Size configurations
+  // Dynamic colors: LULUS = Pass Green (#2F6E4F), TIDAK LULUS = Stamp Red (#B23A2E)
+  const colors = isLulus
+    ? {
+        borderOuter: "border-pass-green/85",
+        borderInner: "border-pass-green/75",
+        textMain: "text-pass-green",
+        textSub: "text-pass-green/80",
+        bgIcon: "bg-pass-green/15 text-pass-green",
+        shadow: "0 0 15px rgba(47, 110, 79, 0.2), inset 0 0 8px rgba(47, 110, 79, 0.1)",
+      }
+    : {
+        borderOuter: "border-stamp-red/85",
+        borderInner: "border-stamp-red/75",
+        textMain: "text-stamp-red",
+        textSub: "text-stamp-red/80",
+        bgIcon: "bg-stamp-red/10 text-stamp-red",
+        shadow: "0 0 15px rgba(178, 58, 46, 0.2), inset 0 0 8px rgba(178, 58, 46, 0.1)",
+      };
+
   const config = {
     sm: {
       outer: "w-16 h-16 border-[1.5px]",
@@ -50,44 +68,38 @@ export const StampBadge: React.FC<StampBadgeProps> = ({
     >
       {/* Cincin Luar Stempel */}
       <div
-        className={`rounded-full flex items-center justify-center border-stamp-red/85 p-1 shadow-stamp ${config.outer}`}
-        style={{
-          boxShadow: isLulus
-            ? "0 0 15px rgba(47, 110, 79, 0.15), inset 0 0 8px rgba(178, 58, 46, 0.1)"
-            : "0 0 15px rgba(178, 58, 46, 0.15), inset 0 0 8px rgba(178, 58, 46, 0.1)",
-        }}
+        className={`rounded-full flex items-center justify-center p-1 shadow-stamp ${colors.borderOuter} ${config.outer}`}
+        style={{ boxShadow: colors.shadow }}
       >
         {/* Cincin Dalam Stempel */}
         <div
-          className={`rounded-full border-dashed border-stamp-red/75 flex flex-col items-center justify-center text-center p-2 backdrop-blur-[1px] ${config.inner}`}
+          className={`rounded-full border-dashed flex flex-col items-center justify-center text-center p-2 backdrop-blur-[1px] ${colors.borderInner} ${config.inner}`}
         >
           {/* Header Lingkaran Stempel */}
-          <span className={`font-medium uppercase text-stamp-red/80 ${config.subText}`}>
+          <span className={`font-medium uppercase ${colors.textSub} ${config.subText}`}>
             PANITIA SELEKSI
           </span>
 
           {/* Ikon Indikator Status */}
           <div className="my-0.5 flex items-center justify-center">
-            {isLulus ? (
-              <div className="w-5 h-5 md:w-6 md:h-6 rounded-full bg-pass-green/15 flex items-center justify-center text-pass-green">
+            <div className={`w-5 h-5 md:w-6 md:h-6 rounded-full flex items-center justify-center ${colors.bgIcon}`}>
+              {isLulus ? (
                 <Check size={config.iconSize} strokeWidth={3} />
-              </div>
-            ) : (
-              <div className="w-5 h-5 md:w-6 md:h-6 rounded-full bg-stamp-red/10 flex items-center justify-center text-stamp-red">
+              ) : (
                 <X size={config.iconSize} strokeWidth={3} />
-              </div>
-            )}
+              )}
+            </div>
           </div>
 
-          {/* Teks Status Utama (LULUS / TIDAK LULUS) */}
+          {/* Teks Status Utama (LULUS = Hijau, TIDAK LULUS = Merah) */}
           <span
-            className={`font-bold text-stamp-red drop-shadow-sm uppercase ${config.text}`}
+            className={`font-bold drop-shadow-sm uppercase ${colors.textMain} ${config.text}`}
           >
             {isLulus ? "LULUS" : "TIDAK LULUS"}
           </span>
 
           {/* Footer Stempel */}
-          <span className={`font-semibold text-stamp-red/75 uppercase ${config.subText}`}>
+          <span className={`font-semibold uppercase ${colors.textSub} ${config.subText}`}>
             MPK SMKN 7
           </span>
         </div>

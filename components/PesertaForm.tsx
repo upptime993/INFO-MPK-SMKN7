@@ -4,7 +4,7 @@ import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { StampBadge } from "./StampBadge";
 import { hitungHasil, StatusSeleksi } from "@/lib/scoring";
-import { Save, ArrowLeft, Loader2, AlertCircle, Link as LinkIcon } from "lucide-react";
+import { Save, ArrowLeft, Loader2, AlertCircle, Link as LinkIcon, UserCheck } from "lucide-react";
 
 export interface PesertaFormInitialData {
   _id?: string;
@@ -17,6 +17,11 @@ export interface PesertaFormInitialData {
     wawancara: number;
   };
   catatan?: {
+    mengaji?: string;
+    akademik?: string;
+    wawancara?: string;
+  };
+  namaPenguji?: {
     mengaji?: string;
     akademik?: string;
     wawancara?: string;
@@ -48,6 +53,10 @@ export const PesertaForm: React.FC<PesertaFormProps> = ({
   const [catatanMengaji, setCatatanMengaji] = useState(initialData?.catatan?.mengaji || "");
   const [catatanAkademik, setCatatanAkademik] = useState(initialData?.catatan?.akademik || "");
   const [catatanWawancara, setCatatanWawancara] = useState(initialData?.catatan?.wawancara || "");
+
+  const [pengujiMengaji, setPengujiMengaji] = useState(initialData?.namaPenguji?.mengaji || "");
+  const [pengujiAkademik, setPengujiAkademik] = useState(initialData?.namaPenguji?.akademik || "");
+  const [pengujiWawancara, setPengujiWawancara] = useState(initialData?.namaPenguji?.wawancara || "");
 
   const [pesanMPK, setPesanMPK] = useState(initialData?.pesanMPK || "");
   const [linkWaGrup, setLinkWaGrup] = useState(initialData?.linkWaGrup || "");
@@ -94,6 +103,11 @@ export const PesertaForm: React.FC<PesertaFormProps> = ({
         akademik: catatanAkademik.trim(),
         wawancara: catatanWawancara.trim(),
       },
+      namaPenguji: {
+        mengaji: pengujiMengaji.trim(),
+        akademik: pengujiAkademik.trim(),
+        wawancara: pengujiWawancara.trim(),
+      },
       pesanMPK: pesanMPK.trim(),
       linkWaGrup: linkWaGrup.trim(),
       published,
@@ -139,7 +153,7 @@ export const PesertaForm: React.FC<PesertaFormProps> = ({
             <ArrowLeft size={14} />
             Kembali ke Dashboard
           </button>
-          <h1 className="font-serif text-2xl font-bold text-navy">
+          <h1 className="font-serif text-xl sm:text-2xl font-bold text-navy">
             {isEditMode ? "Edit Data Peserta" : "Tambah Peserta Baru"}
           </h1>
         </div>
@@ -147,7 +161,7 @@ export const PesertaForm: React.FC<PesertaFormProps> = ({
         <button
           type="submit"
           disabled={isSubmitting}
-          className="px-5 py-2.5 rounded-lg bg-navy hover:bg-navy-dark text-white font-semibold text-xs sm:text-sm flex items-center gap-2 border border-gold/40 shadow-sm disabled:opacity-50 cursor-pointer"
+          className="px-4 py-2 sm:px-5 sm:py-2.5 rounded-lg bg-navy hover:bg-navy-dark text-white font-semibold text-xs sm:text-sm flex items-center gap-2 border border-gold/40 shadow-sm disabled:opacity-50 cursor-pointer"
         >
           {isSubmitting ? (
             <>
@@ -157,7 +171,7 @@ export const PesertaForm: React.FC<PesertaFormProps> = ({
           ) : (
             <>
               <Save size={16} className="text-gold" />
-              <span>Simpan Data Peserta</span>
+              <span>Simpan Data</span>
             </>
           )}
         </button>
@@ -174,7 +188,7 @@ export const PesertaForm: React.FC<PesertaFormProps> = ({
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <div className="lg:col-span-2 space-y-6">
           {/* Identitas */}
-          <div className="bg-paper-card p-5 rounded-xl border border-navy/15 shadow-sm space-y-4">
+          <div className="bg-paper-card p-4 sm:p-5 rounded-xl border border-navy/15 shadow-sm space-y-4">
             <h2 className="font-serif font-bold text-navy text-base border-b border-navy/10 pb-2">
               1. Identitas Peserta
             </h2>
@@ -224,13 +238,13 @@ export const PesertaForm: React.FC<PesertaFormProps> = ({
           </div>
 
           {/* Form Evaluasi Nilai */}
-          <div className="bg-paper-card p-5 rounded-xl border border-navy/15 shadow-sm space-y-4">
+          <div className="bg-paper-card p-4 sm:p-5 rounded-xl border border-navy/15 shadow-sm space-y-4">
             <h2 className="font-serif font-bold text-navy text-base border-b border-navy/10 pb-2">
-              2. Nilai & Catatan Evaluasi Tes (Maksimal 5.0 per Tes)
+              2. Nilai, Catatan & Nama Penguji
             </h2>
 
             {/* Mengaji */}
-            <div className="p-3.5 rounded-lg bg-paper border border-navy/10 space-y-2">
+            <div className="p-3.5 rounded-lg bg-paper border border-navy/10 space-y-3">
               <div className="flex items-center justify-between">
                 <label className="font-semibold text-xs text-navy uppercase tracking-wider">
                   a. Tes Mengaji (0 - 5.0)
@@ -239,7 +253,7 @@ export const PesertaForm: React.FC<PesertaFormProps> = ({
                   {nilaiMengaji} / 5.0
                 </span>
               </div>
-              <div className="grid grid-cols-1 sm:grid-cols-4 gap-3 items-center">
+              <div className="grid grid-cols-1 sm:grid-cols-4 gap-2.5 items-center">
                 <input
                   type="number"
                   min="0"
@@ -251,16 +265,23 @@ export const PesertaForm: React.FC<PesertaFormProps> = ({
                 />
                 <input
                   type="text"
+                  placeholder="Nama Penguji (Opsional)..."
+                  value={pengujiMengaji}
+                  onChange={(e) => setPengujiMengaji(e.target.value)}
+                  className="px-3 py-1.5 text-xs rounded border border-navy/20 bg-paper-card text-ink"
+                />
+                <input
+                  type="text"
                   placeholder="Catatan penguji tes mengaji..."
                   value={catatanMengaji}
                   onChange={(e) => setCatatanMengaji(e.target.value)}
-                  className="sm:col-span-3 px-3 py-1.5 text-xs rounded border border-navy/20 bg-paper-card text-ink"
+                  className="sm:col-span-2 px-3 py-1.5 text-xs rounded border border-navy/20 bg-paper-card text-ink"
                 />
               </div>
             </div>
 
             {/* Akademik */}
-            <div className="p-3.5 rounded-lg bg-paper border border-navy/10 space-y-2">
+            <div className="p-3.5 rounded-lg bg-paper border border-navy/10 space-y-3">
               <div className="flex items-center justify-between">
                 <label className="font-semibold text-xs text-navy uppercase tracking-wider">
                   b. Tes Akademik (0 - 5.0)
@@ -269,7 +290,7 @@ export const PesertaForm: React.FC<PesertaFormProps> = ({
                   {nilaiAkademik} / 5.0
                 </span>
               </div>
-              <div className="grid grid-cols-1 sm:grid-cols-4 gap-3 items-center">
+              <div className="grid grid-cols-1 sm:grid-cols-4 gap-2.5 items-center">
                 <input
                   type="number"
                   min="0"
@@ -281,16 +302,23 @@ export const PesertaForm: React.FC<PesertaFormProps> = ({
                 />
                 <input
                   type="text"
+                  placeholder="Nama Penguji (Opsional)..."
+                  value={pengujiAkademik}
+                  onChange={(e) => setPengujiAkademik(e.target.value)}
+                  className="px-3 py-1.5 text-xs rounded border border-navy/20 bg-paper-card text-ink"
+                />
+                <input
+                  type="text"
                   placeholder="Catatan penguji tes akademik..."
                   value={catatanAkademik}
                   onChange={(e) => setCatatanAkademik(e.target.value)}
-                  className="sm:col-span-3 px-3 py-1.5 text-xs rounded border border-navy/20 bg-paper-card text-ink"
+                  className="sm:col-span-2 px-3 py-1.5 text-xs rounded border border-navy/20 bg-paper-card text-ink"
                 />
               </div>
             </div>
 
             {/* Wawancara */}
-            <div className="p-3.5 rounded-lg bg-paper border border-navy/10 space-y-2">
+            <div className="p-3.5 rounded-lg bg-paper border border-navy/10 space-y-3">
               <div className="flex items-center justify-between">
                 <label className="font-semibold text-xs text-navy uppercase tracking-wider">
                   c. Tes Wawancara (0 - 5.0)
@@ -299,7 +327,7 @@ export const PesertaForm: React.FC<PesertaFormProps> = ({
                   {nilaiWawancara} / 5.0
                 </span>
               </div>
-              <div className="grid grid-cols-1 sm:grid-cols-4 gap-3 items-center">
+              <div className="grid grid-cols-1 sm:grid-cols-4 gap-2.5 items-center">
                 <input
                   type="number"
                   min="0"
@@ -311,19 +339,26 @@ export const PesertaForm: React.FC<PesertaFormProps> = ({
                 />
                 <input
                   type="text"
+                  placeholder="Nama Penguji (Opsional)..."
+                  value={pengujiWawancara}
+                  onChange={(e) => setPengujiWawancara(e.target.value)}
+                  className="px-3 py-1.5 text-xs rounded border border-navy/20 bg-paper-card text-ink"
+                />
+                <input
+                  type="text"
                   placeholder="Catatan penguji tes wawancara..."
                   value={catatanWawancara}
                   onChange={(e) => setCatatanWawancara(e.target.value)}
-                  className="sm:col-span-3 px-3 py-1.5 text-xs rounded border border-navy/20 bg-paper-card text-ink"
+                  className="sm:col-span-2 px-3 py-1.5 text-xs rounded border border-navy/20 bg-paper-card text-ink"
                 />
               </div>
             </div>
           </div>
 
-          {/* Pesan MPK, Link WA, & Status Publikasi */}
-          <div className="bg-paper-card p-5 rounded-xl border border-navy/15 shadow-sm space-y-4">
+          {/* Pesan, Link WA & Status */}
+          <div className="bg-paper-card p-4 sm:p-5 rounded-xl border border-navy/15 shadow-sm space-y-4">
             <h2 className="font-serif font-bold text-navy text-base border-b border-navy/10 pb-2">
-              3. Pesan, Link Grup WA Tahap 2 & Publikasi
+              3. Pesan, Link WA & Publikasi
             </h2>
 
             <div>
@@ -339,7 +374,7 @@ export const PesertaForm: React.FC<PesertaFormProps> = ({
                 className="w-full px-3.5 py-2 text-xs sm:text-sm rounded-lg border border-navy/20 bg-paper text-ink font-mono focus:ring-2 focus:ring-navy/30"
               />
               <span className="text-[11px] text-ink-muted mt-1 block">
-                Link grup WA ini akan digunakan tombol &quot;Lanjut ke Tahap 2&quot; jika peserta LULUS.
+                Jika dikosongkan, bisa di-set massal untuk semua peserta dari menu Dashboard.
               </span>
             </div>
 

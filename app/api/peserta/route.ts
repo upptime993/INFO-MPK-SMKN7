@@ -61,7 +61,7 @@ export async function POST(request: Request) {
     }
 
     const body = await request.json();
-    const { nama, kelasJurusan, nomorPendaftaran, nilai, catatan, pesanMPK, linkWaGrup, published } = body;
+    const { nama, kelasJurusan, nomorPendaftaran, nilai, catatan, namaPenguji, pesanMPK, linkWaGrup, published } = body;
 
     if (!nama || !nomorPendaftaran) {
       return NextResponse.json(
@@ -106,6 +106,11 @@ export async function POST(request: Request) {
         mengaji: String(catatan?.mengaji || "").trim(),
         akademik: String(catatan?.akademik || "").trim(),
         wawancara: String(catatan?.wawancara || "").trim(),
+      },
+      namaPenguji: {
+        mengaji: String(namaPenguji?.mengaji || "").trim(),
+        akademik: String(namaPenguji?.akademik || "").trim(),
+        wawancara: String(namaPenguji?.wawancara || "").trim(),
       },
       pesanMPK: String(pesanMPK || "").trim(),
       linkWaGrup: String(linkWaGrup || "").trim(),
