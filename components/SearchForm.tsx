@@ -41,7 +41,7 @@ export const SearchForm: React.FC<SearchFormProps> = ({
           Cek Hasil Seleksi Tahap 1
         </h2>
         <p className="text-ink-light text-xs sm:text-sm mt-1.5 max-w-md mx-auto">
-          Masukkan Nama Lengkap dan Nomor Pendaftaran sesuai kartu/tanda terima pendaftaran Anda.
+          Masukkan Nama Lengkap dan Nomor Pendaftaran yang sesuai dengan data Anda.
         </p>
       </div>
 
@@ -54,7 +54,7 @@ export const SearchForm: React.FC<SearchFormProps> = ({
           <input
             id="nama-input"
             type="text"
-            placeholder="Contoh: Ahmad Fauzi"
+            placeholder="Contoh: Monica Bernadeth"
             value={nama}
             onChange={(e) => setNama(e.target.value)}
             disabled={isLoading}
