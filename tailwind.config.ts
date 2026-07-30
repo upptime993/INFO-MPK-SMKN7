@@ -26,7 +26,7 @@ const config: Config = {
           green: "#2F6E4F",
         },
         paper: {
-          DEFAULT: "#FAF8F3",
+          DEFAULT: "#FAF6EF",
           card: "#FFFFFF",
           muted: "#F3EFE6",
         },

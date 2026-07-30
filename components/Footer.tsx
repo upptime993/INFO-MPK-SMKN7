@@ -1,5 +1,4 @@
 import React from "react";
-import Link from "next/link";
 
 export const Footer: React.FC = () => {
   return (
@@ -16,13 +15,6 @@ export const Footer: React.FC = () => {
 
         <div className="flex items-center gap-4 text-white/60 text-xs">
           <span>&copy; {new Date().getFullYear()} MPK SMKN 7</span>
-          <span>•</span>
-          <Link
-            href="/admin/login"
-            className="hover:text-gold transition-colors font-medium underline underline-offset-2"
-          >
-            Admin
-          </Link>
         </div>
       </div>
     </footer>
