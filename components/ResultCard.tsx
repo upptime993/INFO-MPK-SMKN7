@@ -1,8 +1,11 @@
-import React from "react";
+"use client";
+
+import React, { useRef, useState } from "react";
 import { StampBadge } from "./StampBadge";
 import { ScoreCard } from "./ScoreCard";
-import { RotateCcw, Award, MessageSquare, ArrowRight } from "lucide-react";
+import { RotateCcw, Award, MessageSquare, ArrowRight, Download, Loader2 } from "lucide-react";
 import { StatusSeleksi } from "@/lib/scoring";
+import { toPng } from "html-to-image";
 
 export interface PesertaResultData {
   id: string;
@@ -43,6 +46,9 @@ interface ResultCardProps {
 }
 
 export const ResultCard: React.FC<ResultCardProps> = ({ data, onReset }) => {
+  const cardRef = useRef<HTMLDivElement>(null);
+  const [isDownloading, setIsDownloading] = useState(false);
+
   const isLulus = data.status === "LULUS";
   const waUrl = data.linkWaGrup && data.linkWaGrup.trim() !== "" 
     ? data.linkWaGrup.trim() 
@@ -56,8 +62,43 @@ export const ResultCard: React.FC<ResultCardProps> = ({ data, onReset }) => {
     ? data.pesanKelulusan.trim()
     : (isLulus ? defaultPesanLulus : defaultPesanGagal);
 
+  // Fungsi Download Surat Keterangan Hasil sebagai PNG (kualitas HD 2x)
+  const handleDownloadImage = async () => {
+    if (!cardRef.current) return;
+    setIsDownloading(true);
+
+    try {
+      const dataUrl = await toPng(cardRef.current, {
+        quality: 0.95,
+        pixelRatio: 2,
+        backgroundColor: "#FAF8F3",
+        filter: (node) => {
+          // Jangan sertakan tombol aksi di dalam gambar PNG yang didownload
+          if (node instanceof HTMLElement && node.classList.contains("no-download")) {
+            return false;
+          }
+          return true;
+        },
+      });
+
+      const link = document.createElement("a");
+      const cleanNama = data.nama.replace(/[^a-zA-Z0-9_-]/g, "_");
+      link.download = `Hasil_Seleksi_${cleanNama}_${data.nomorPendaftaran}.png`;
+      link.href = dataUrl;
+      link.click();
+    } catch (err) {
+      console.error("Gagal mengunduh gambar hasil:", err);
+      alert("Gagal mengunduh gambar hasil seleksi. Silakan coba lagi.");
+    } finally {
+      setIsDownloading(false);
+    }
+  };
+
   return (
-    <div className="w-full max-w-2xl mx-auto bg-paper-card/92 backdrop-blur-md border-2 border-gold/40 rounded-2xl p-4 sm:p-8 shadow-navy relative z-10 animate-fadeIn">
+    <div
+      ref={cardRef}
+      className="w-full max-w-2xl mx-auto bg-paper-card/92 backdrop-blur-md border-2 border-gold/40 rounded-2xl p-4 sm:p-8 shadow-navy relative z-10 animate-fadeIn"
+    >
       {/* Header Dokumen Hasil */}
       <div className="border-b border-navy/15 pb-5 mb-5 flex flex-col sm:flex-row items-center sm:items-start justify-between gap-4">
         <div className="text-center sm:text-left">
@@ -178,7 +219,27 @@ export const ResultCard: React.FC<ResultCardProps> = ({ data, onReset }) => {
       )}
 
       {/* Tombol Aksi Utama */}
-      <div className="pt-2 flex flex-col items-center gap-2.5">
+      <div className="pt-2 flex flex-col items-center gap-2.5 no-download">
+        {/* Tombol Download Hasil (.PNG) di atas tombol Lanjut */}
+        <button
+          onClick={handleDownloadImage}
+          disabled={isDownloading}
+          className="w-full sm:w-auto px-6 py-2.5 rounded-xl border border-navy/30 bg-navy hover:bg-navy-dark text-white font-bold text-xs sm:text-sm tracking-wide shadow-sm hover:shadow-md transition-all duration-200 flex items-center justify-center gap-2 cursor-pointer active:scale-[0.99] disabled:opacity-60"
+          title="Unduh Kartu Hasil Seleksi sebagai Gambar PNG"
+        >
+          {isDownloading ? (
+            <>
+              <Loader2 className="w-4 h-4 animate-spin text-gold" />
+              <span>Memproses Gambar (.PNG)...</span>
+            </>
+          ) : (
+            <>
+              <Download className="w-4 h-4 text-gold" />
+              <span>Download Hasil (.PNG)</span>
+            </>
+          )}
+        </button>
+
         {isLulus ? (
           <a
             href={waUrl}
