@@ -31,7 +31,7 @@ export const SearchForm: React.FC<SearchFormProps> = ({
   };
 
   return (
-    <div className="w-full max-w-xl mx-auto bg-paper-card border border-gold/30 rounded-xl p-6 sm:p-8 shadow-navy relative z-10">
+    <div className="w-full max-w-xl mx-auto bg-paper-card/92 backdrop-blur-md border border-gold/30 rounded-xl p-6 sm:p-8 shadow-navy relative z-10">
       {/* Header Form */}
       <div className="text-center mb-6">
         <span className="inline-block px-3 py-1 rounded-full bg-navy/5 text-navy font-mono text-[11px] font-bold uppercase tracking-[0.2em] mb-2">
@@ -58,7 +58,7 @@ export const SearchForm: React.FC<SearchFormProps> = ({
             value={nama}
             onChange={(e) => setNama(e.target.value)}
             disabled={isLoading}
-            className="w-full px-4 py-2.5 rounded-lg border border-navy/20 bg-paper text-ink placeholder:text-ink-muted text-sm font-sans focus:outline-none focus:ring-2 focus:ring-navy/30 focus:border-navy transition-all"
+            className="w-full px-4 py-2.5 rounded-lg border border-navy/20 bg-paper/90 text-ink placeholder:text-ink-muted text-sm font-sans focus:outline-none focus:ring-2 focus:ring-navy/30 focus:border-navy transition-all"
             required
           />
         </div>
@@ -74,7 +74,7 @@ export const SearchForm: React.FC<SearchFormProps> = ({
             value={nomorPendaftaran}
             onChange={(e) => setNomorPendaftaran(e.target.value)}
             disabled={isLoading}
-            className="w-full px-4 py-2.5 rounded-lg border border-navy/20 bg-paper text-ink placeholder:text-ink-muted text-sm font-mono focus:outline-none focus:ring-2 focus:ring-navy/30 focus:border-navy transition-all uppercase"
+            className="w-full px-4 py-2.5 rounded-lg border border-navy/20 bg-paper/90 text-ink placeholder:text-ink-muted text-sm font-mono focus:outline-none focus:ring-2 focus:ring-navy/30 focus:border-navy transition-all uppercase"
             required
           />
         </div>

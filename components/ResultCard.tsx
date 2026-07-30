@@ -57,7 +57,7 @@ export const ResultCard: React.FC<ResultCardProps> = ({ data, onReset }) => {
     : (isLulus ? defaultPesanLulus : defaultPesanGagal);
 
   return (
-    <div className="w-full max-w-2xl mx-auto bg-paper-card border-2 border-gold/40 rounded-2xl p-4 sm:p-8 shadow-navy relative z-10 animate-fadeIn">
+    <div className="w-full max-w-2xl mx-auto bg-paper-card/92 backdrop-blur-md border-2 border-gold/40 rounded-2xl p-4 sm:p-8 shadow-navy relative z-10 animate-fadeIn">
       {/* Header Dokumen Hasil */}
       <div className="border-b border-navy/15 pb-5 mb-5 flex flex-col sm:flex-row items-center sm:items-start justify-between gap-4">
         <div className="text-center sm:text-left">
