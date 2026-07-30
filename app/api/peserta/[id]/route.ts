@@ -47,7 +47,7 @@ export async function PUT(
     }
 
     const body = await request.json();
-    const { nama, kelasJurusan, nomorPendaftaran, nilai, catatan, namaPenguji, pesanMPK, linkWaGrup, published } = body;
+    const { nama, kelasJurusan, nomorPendaftaran, nilai, catatan, namaPenguji, pesanMPK, pesanKelulusan, linkWaGrup, published } = body;
 
     await connectToDatabase();
 
@@ -76,6 +76,7 @@ export async function PUT(
     if (nama !== undefined) peserta.nama = String(nama).trim();
     if (kelasJurusan !== undefined) peserta.kelasJurusan = String(kelasJurusan).trim();
     if (pesanMPK !== undefined) peserta.pesanMPK = String(pesanMPK).trim();
+    if (pesanKelulusan !== undefined) peserta.pesanKelulusan = String(pesanKelulusan).trim();
     if (linkWaGrup !== undefined) peserta.linkWaGrup = String(linkWaGrup).trim();
     if (published !== undefined) peserta.published = Boolean(published);
 

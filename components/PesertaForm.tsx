@@ -4,7 +4,7 @@ import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { StampBadge } from "./StampBadge";
 import { hitungHasil, StatusSeleksi } from "@/lib/scoring";
-import { Save, ArrowLeft, Loader2, AlertCircle, Link as LinkIcon } from "lucide-react";
+import { Save, ArrowLeft, Loader2, AlertCircle, Link as LinkIcon, MessageSquare } from "lucide-react";
 
 export interface PesertaFormInitialData {
   _id?: string;
@@ -27,6 +27,7 @@ export interface PesertaFormInitialData {
     wawancara?: string;
   };
   pesanMPK?: string;
+  pesanKelulusan?: string;
   linkWaGrup?: string;
   published: boolean;
 }
@@ -59,6 +60,7 @@ export const PesertaForm: React.FC<PesertaFormProps> = ({
   const [pengujiWawancara, setPengujiWawancara] = useState(initialData?.namaPenguji?.wawancara || "");
 
   const [pesanMPK, setPesanMPK] = useState(initialData?.pesanMPK || "");
+  const [pesanKelulusan, setPesanKelulusan] = useState(initialData?.pesanKelulusan || "");
   const [linkWaGrup, setLinkWaGrup] = useState(initialData?.linkWaGrup || "");
   const [published, setPublished] = useState<boolean>(initialData?.published ?? false);
 
@@ -109,6 +111,7 @@ export const PesertaForm: React.FC<PesertaFormProps> = ({
         wawancara: pengujiWawancara.trim(),
       },
       pesanMPK: pesanMPK.trim(),
+      pesanKelulusan: pesanKelulusan.trim(),
       linkWaGrup: linkWaGrup.trim(),
       published,
     };
@@ -358,8 +361,26 @@ export const PesertaForm: React.FC<PesertaFormProps> = ({
           {/* Pesan, Link WA & Status */}
           <div className="bg-paper-card p-4 sm:p-5 rounded-xl border border-navy/15 shadow-sm space-y-4">
             <h2 className="font-serif font-bold text-navy text-base border-b border-navy/10 pb-2">
-              3. Pesan, Link WA & Publikasi
+              3. Pesan Status, Link WA & Publikasi
             </h2>
+
+            {/* Opsi Custom Pesan Kelulusan / Ketidaklulusan Banner */}
+            <div>
+              <label className="block text-xs font-semibold text-navy uppercase tracking-wider mb-1 flex items-center gap-1.5">
+                <MessageSquare size={14} className="text-gold-dark" />
+                <span>Pesan Status Kelulusan Custom (Banner Atas)</span>
+              </label>
+              <textarea
+                rows={2}
+                placeholder="Ketik pesan khusus untuk box kelulusan/ketidaklulusan peserta ini... (Jika dikosongkan, akan memakai pesan standar bawaan)"
+                value={pesanKelulusan}
+                onChange={(e) => setPesanKelulusan(e.target.value)}
+                className="w-full px-3.5 py-2 text-xs sm:text-sm rounded-lg border border-navy/20 bg-paper text-ink focus:ring-2 focus:ring-navy/30"
+              />
+              <span className="text-[11px] text-ink-muted mt-1 block">
+                Pesan ini menggantikan ucapan default di kotak hijau (LULUS) / merah (TIDAK LULUS).
+              </span>
+            </div>
 
             <div>
               <label className="block text-xs font-semibold text-navy uppercase tracking-wider mb-1 flex items-center gap-1.5">
@@ -380,10 +401,10 @@ export const PesertaForm: React.FC<PesertaFormProps> = ({
 
             <div>
               <label className="block text-xs font-semibold text-navy uppercase tracking-wider mb-1">
-                Pesan Khusus untuk Peserta
+                Pesan Khusus Tambahan dari Panitia (Bawah)
               </label>
               <textarea
-                rows={3}
+                rows={2}
                 placeholder="Pesan personal atau kata motivasi dari Panitia MPK..."
                 value={pesanMPK}
                 onChange={(e) => setPesanMPK(e.target.value)}

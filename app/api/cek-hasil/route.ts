@@ -46,6 +46,7 @@ export async function POST(request: Request) {
       catatan: peserta.catatan || {},
       namaPenguji: peserta.namaPenguji || {},
       pesanMPK: peserta.pesanMPK || "",
+      pesanKelulusan: peserta.pesanKelulusan || "",
       linkWaGrup: peserta.linkWaGrup || "",
       totalPoin: hasil.totalPoin,
       status: hasil.status,

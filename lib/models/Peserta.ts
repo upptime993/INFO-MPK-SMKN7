@@ -21,6 +21,7 @@ export interface IPeserta extends Document {
     wawancara?: string;
   };
   pesanMPK?: string;
+  pesanKelulusan?: string;
   linkWaGrup?: string;
   totalPoin: number;
   status: StatusSeleksi;
@@ -63,6 +64,10 @@ const PesertaSchema = new Schema<IPeserta>(
       wawancara: { type: String, default: "" },
     },
     pesanMPK: {
+      type: String,
+      default: "",
+    },
+    pesanKelulusan: {
       type: String,
       default: "",
     },

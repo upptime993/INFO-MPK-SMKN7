@@ -25,6 +25,7 @@ export interface PesertaResultData {
     wawancara?: string;
   };
   pesanMPK?: string;
+  pesanKelulusan?: string;
   linkWaGrup?: string;
   totalPoin: number;
   status: StatusSeleksi;
@@ -46,6 +47,14 @@ export const ResultCard: React.FC<ResultCardProps> = ({ data, onReset }) => {
   const waUrl = data.linkWaGrup && data.linkWaGrup.trim() !== "" 
     ? data.linkWaGrup.trim() 
     : "https://chat.whatsapp.com/";
+
+  // Default pesan jika tidak di-custom
+  const defaultPesanLulus = "Selamat atas pencapaian Anda! Silakan klik tombol 'Lanjut ke Tahap 2' di bawah untuk bergabung ke Grup WhatsApp resmi panitia.";
+  const defaultPesanGagal = "Terima kasih atas partisipasi dan perjuangan Anda. Tetap semangat berkarya dan berkontribusi untuk SMKN 7 Kota Serang di kesempatan lainnya.";
+
+  const pesanKelulusanText = data.pesanKelulusan && data.pesanKelulusan.trim() !== ""
+    ? data.pesanKelulusan.trim()
+    : (isLulus ? defaultPesanLulus : defaultPesanGagal);
 
   return (
     <div className="w-full max-w-2xl mx-auto bg-paper-card border-2 border-gold/40 rounded-2xl p-4 sm:p-8 shadow-navy relative z-10 animate-fadeIn">
@@ -76,7 +85,7 @@ export const ResultCard: React.FC<ResultCardProps> = ({ data, onReset }) => {
         </div>
       </div>
 
-      {/* Pesan Kelulusan */}
+      {/* Pesan Kelulusan Custom / Default */}
       <div
         className={`p-3.5 sm:p-4 rounded-xl mb-5 border ${
           isLulus
@@ -93,9 +102,7 @@ export const ResultCard: React.FC<ResultCardProps> = ({ data, onReset }) => {
           </span>
         </div>
         <p className="text-xs sm:text-sm font-sans text-ink leading-relaxed pl-7">
-          {isLulus
-            ? "Selamat atas pencapaian Anda! Silakan klik tombol 'Lanjut ke Tahap 2' di bawah untuk bergabung ke Grup WhatsApp resmi panitia."
-            : "Terima kasih atas partisipasi dan perjuangan Anda. Tetap semangat berkarya dan berkontribusi untuk SMKN 7 Kota Serang di kesempatan lainnya."}
+          {pesanKelulusanText}
         </p>
       </div>
 
