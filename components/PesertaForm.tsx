@@ -4,7 +4,7 @@ import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { StampBadge } from "./StampBadge";
 import { hitungHasil, StatusSeleksi } from "@/lib/scoring";
-import { Save, ArrowLeft, Loader2, AlertCircle, Link as LinkIcon, UserCheck } from "lucide-react";
+import { Save, ArrowLeft, Loader2, AlertCircle, Link as LinkIcon } from "lucide-react";
 
 export interface PesertaFormInitialData {
   _id?: string;
@@ -442,13 +442,13 @@ export const PesertaForm: React.FC<PesertaFormProps> = ({
                     computedStatus === "LULUS" ? "text-pass-green" : "text-stamp-red"
                   }`}
                 >
-                  {computedStatus === "LULUS" ? "LULUS (≥ 11)" : "TIDAK LULUS (< 11)"}
+                  {computedStatus === "LULUS" ? "LULUS (≥ 10)" : "TIDAK LULUS (< 10)"}
                 </span>
               </div>
             </div>
 
             <p className="text-[11px] text-ink-muted text-center italic">
-              * Total poin dan status dihitung otomatis oleh server berdasarkan aturan bisnis (Total ≥ 11 → LULUS).
+              * Total poin dan status dihitung otomatis oleh server berdasarkan aturan bisnis (Total ≥ 10 → LULUS).
             </p>
           </div>
         </div>

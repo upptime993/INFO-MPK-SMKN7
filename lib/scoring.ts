@@ -24,7 +24,8 @@ export function hitungHasil(nilai: NilaiInput): HasilSeleksi {
 
   const totalRaw = mengaji + akademik + wawancara;
   const totalPoin = Math.round(totalRaw * 10) / 10;
-  const status: StatusSeleksi = totalPoin >= 11 ? "LULUS" : "TIDAK_LULUS";
+  // Kriteria Kelulusan: Total Poin >= 10 -> LULUS
+  const status: StatusSeleksi = totalPoin >= 10 ? "LULUS" : "TIDAK_LULUS";
 
   return {
     totalPoin,
