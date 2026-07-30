@@ -7,7 +7,7 @@ export const Footer: React.FC = () => {
       <div className="max-w-5xl mx-auto px-4 flex flex-col md:flex-row items-center justify-between gap-4 text-center md:text-left text-xs sm:text-sm">
         <div>
           <p className="font-serif font-semibold text-gold text-base">
-            Panitia Penerimaan Anggota Baru MPK
+            Penerimaan Anggota Baru MPK
           </p>
           <p className="text-white/70 text-xs mt-0.5">
             SMKN 7 Kota Serang • Jl. Raya Taktakan, Kota Serang, Banten
@@ -21,7 +21,7 @@ export const Footer: React.FC = () => {
             href="/admin/login"
             className="hover:text-gold transition-colors font-medium underline underline-offset-2"
           >
-            Portal Panitia (Admin)
+            Admin
           </Link>
         </div>
       </div>

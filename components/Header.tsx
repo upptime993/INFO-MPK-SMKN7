@@ -38,15 +38,6 @@ export const Header: React.FC = () => {
             </p>
           </div>
         </Link>
-
-        {/* Badge Pengumuman Resmi — tampil di semua ukuran layar */}
-        <div className="flex flex-col items-end flex-shrink-0">
-          <span className="inline-flex items-center gap-1 sm:gap-1.5 px-1.5 sm:px-2.5 py-0.5 sm:py-1 rounded-md bg-navy/5 border border-navy/10 text-navy font-semibold text-[9px] sm:text-xs tracking-wider uppercase">
-            <span className="w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full bg-gold animate-pulse"></span>
-            <span className="hidden xs:inline">Pengumuman</span> Resmi
-          </span>
-          <span className="text-[9px] sm:text-[11px] text-ink-muted mt-0.5">Seleksi Tahap 1</span>
-        </div>
       </div>
     </header>
   );
