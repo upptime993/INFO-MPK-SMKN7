@@ -62,18 +62,31 @@ export const ResultCard: React.FC<ResultCardProps> = ({ data, onReset }) => {
     ? data.pesanKelulusan.trim()
     : (isLulus ? defaultPesanLulus : defaultPesanGagal);
 
-  // Fungsi Download Surat Keterangan Hasil sebagai PNG (kualitas HD 2x)
+  // Fungsi Download Surat Keterangan Hasil sebagai PNG (kualitas HD 2x, resolusi penuh 672px)
   const handleDownloadImage = async () => {
     if (!cardRef.current) return;
     setIsDownloading(true);
 
     try {
+      // Opsi style memaksa render elemen dengan lebar penuh (672px) tanpa terpotong batas layar HP
       const dataUrl = await toPng(cardRef.current, {
-        quality: 0.95,
+        quality: 0.98,
         pixelRatio: 2,
         backgroundColor: "#FAF8F3",
+        cacheBust: true,
+        style: {
+          width: "672px",
+          maxWidth: "none",
+          transform: "none",
+          animation: "none",
+          transition: "none",
+          backdropFilter: "none",
+          filter: "none",
+          margin: "0",
+          borderRadius: "16px",
+        },
         filter: (node) => {
-          // Jangan sertakan tombol aksi di dalam gambar PNG yang didownload
+          // Abaikan tombol aksi dari hasil render gambar PNG
           if (node instanceof HTMLElement && node.classList.contains("no-download")) {
             return false;
           }
@@ -97,7 +110,7 @@ export const ResultCard: React.FC<ResultCardProps> = ({ data, onReset }) => {
   return (
     <div
       ref={cardRef}
-      className="w-full max-w-2xl mx-auto bg-paper-card/92 backdrop-blur-md border-2 border-gold/40 rounded-2xl p-4 sm:p-8 shadow-navy relative z-10 animate-fadeIn"
+      className="w-full max-w-2xl mx-auto bg-paper-card border-2 border-gold/40 rounded-2xl p-4 sm:p-8 shadow-navy relative z-10 animate-fadeIn"
     >
       {/* Header Dokumen Hasil */}
       <div className="border-b border-navy/15 pb-5 mb-5 flex flex-col sm:flex-row items-center sm:items-start justify-between gap-4">
