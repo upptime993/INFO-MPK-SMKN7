@@ -35,7 +35,7 @@ export const SearchForm: React.FC<SearchFormProps> = ({
       {/* Header Form */}
       <div className="text-center mb-6">
         <span className="inline-block px-3 py-1 rounded-full bg-navy/5 text-navy font-mono text-[11px] font-bold uppercase tracking-[0.2em] mb-2">
-          PENGUMUMAN RESMI
+          PENGUMUMAN
         </span>
         <h2 className="font-serif text-2xl sm:text-3xl font-bold text-navy">
           Cek Hasil Seleksi Tahap 1
