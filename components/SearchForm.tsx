@@ -31,7 +31,7 @@ export const SearchForm: React.FC<SearchFormProps> = ({
   };
 
   return (
-    <div className="w-full max-w-xl mx-auto bg-paper-card/92 backdrop-blur-md border border-gold/30 rounded-xl p-6 sm:p-8 shadow-navy relative z-10">
+    <div className="w-full max-w-[570px] mx-auto bg-paper-card/92 backdrop-blur-md border border-gold/30 rounded-xl p-[28px] shadow-navy relative z-10 scale-[0.88] sm:scale-100 transition-all duration-200">
       {/* Header Form */}
       <div className="text-center mb-6">
         <span className="inline-block px-3 py-1 rounded-full bg-navy/5 text-navy font-mono text-[11px] font-bold uppercase tracking-[0.2em] mb-2">
